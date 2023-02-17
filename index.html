@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>money master</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@2.50.1/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <h1 class="text-center text-5xl mt-10 font-medium">Money <span class="text-primary font-bold">Master</span></h1>
+    <div class="flex justify-center items-center gap-44">
+      <section >
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Money-2180330_1920.jpg/640px-Money-2180330_1920.jpg"
+          alt=""
+        />
+      </section>
+      <section>
+        <section>
+          <div>
+            <div class="from mt-3">
+              <p class="font-bold mb-2" >Income:</p>
+              <input
+                class="input input-bordered input-warning w-full max-w-xs"
+                id="income"
+                type="text"
+                placeholder="income"
+              />
+              <h4 class="text-3xl mt-10 mb-5 font-bold text-primary">Expenses</h4>
+              <p class="font-bold mb-2">Food</p>
+              <input
+                class="input input-bordered input-warning w-full max-w-xs"
+                id="food"
+                type="text"
+                placeholder="food"
+              />
+              <p class="font-bold mb-2">rent</p>
+              <input
+                class="input input-bordered input-warning w-full max-w-xs"
+                id="rent"
+                type="text"
+                placeholder="rent"
+              />
+              <p class="font-bold mb-2">Clothes</p>
+              <input
+                class="input input-bordered input-warning w-full max-w-xs"
+                id="cloth"
+                type="text"
+                placeholder="clothes"
+              />
+              <button class="btn btn-active mt-6 mb-4" id="calculate">
+                Calculate
+              </button>
+            </div>
+          </div>
+          <!-- total price area -->
+          <h2 class="text-2xl font-bold">
+            Total Expenses: <span id="total-expenses">00</span>
+          </h2>
+          <h2 class="text-1xl font-bold mb-8">
+            Balance:<span id="balance"> 00</span>
+          </h2>
+
+          <!-- parcentance -->
+          <span>Save:</span>
+          <input
+            class="input input-bordered input-warning w-full max-w-xs"
+            id="saveInput"
+            type="text"
+            placeholder="%"
+          />
+          <button class="btn btn-active mt-6 mb-5" id="saveBtn">Save</button>
+          <!-- total saving  -->
+          <h2 class="text-2xl font-bold">
+            Saving amount: <span id="savingAmount">00</span>
+          </h2>
+          <h2 class="text-1xl font-bold mb-10">
+            Remaining Balance: <span id="remaingBalance">00</span>
+          </h2>
+          
+        </section>
+      </section>
+    </div>
+
+    <!-- javascript -->
+
+    <script>
+      //  expenses funcatin
+      function expenses(id) {
+        const inputId = document.getElementById(id);
+        const inputIdString = inputId.value;
+        const inputNumber = parseInt(inputIdString);
+        return inputNumber;
+      }
+      //  balance calculation string
+      function balanceCalculation(id) {
+        const previousBalance = document.getElementById(id);
+        const previousBalanceString = previousBalance.innerText;
+        const previousBalanceAmout = parseInt(previousBalanceString);
+        return previousBalanceAmout;
+      }
+      document
+        .getElementById("calculate")
+        .addEventListener("click", function () {
+          // total income -----
+          const totalIncomeId = document.getElementById("income");
+          const totalIncomeString = totalIncomeId.value;
+          const totalIncome = parseInt(totalIncomeString);
+          //   expenses
+          const foodTotal = expenses("food");
+          const rentTotal = expenses("rent");
+          const clothTotal = expenses("cloth");
+          const totalExpenses = foodTotal + rentTotal + clothTotal;
+          // total expenses
+
+          const expensesAmount = balanceCalculation("total-expenses");
+          const totalExpensesAmount = expensesAmount + totalExpenses;
+          document.getElementById("total-expenses").innerText =
+            totalExpensesAmount;
+
+          // balance calculation
+          const previousBalance = balanceCalculation("balance");
+          const currentBalance = totalExpensesAmount - totalIncome;
+          const resentBalanceminus = previousBalance - currentBalance;
+          const presentBalance = (document.getElementById("balance").innerText =
+            resentBalanceminus);
+        });
+
+      // handle save button
+
+      document.getElementById("saveBtn").addEventListener("click", function () {
+        const saveInputvalue = expenses("saveInput");
+        // const totalBalcc
+        const TotlaBalance = balanceCalculation("balance");
+        const parcentage = (TotlaBalance * saveInputvalue) / 100;
+        // saving amaount
+        const previousSavingAmount = balanceCalculation("savingAmount");
+        const currentSavingAmaunt = previousSavingAmount + parcentage;
+        const savingAmount = (document.getElementById(
+          "savingAmount"
+        ).innerText = currentSavingAmaunt);
+        //  remaing Balance
+
+        const previousRemaingBalance = balanceCalculation("remaingBalance");
+        const currentRemaingBalace = TotlaBalance - savingAmount;
+        const presentRemaingBalance =
+          previousRemaingBalance + currentRemaingBalace;
+        document.getElementById("remaingBalance").innerText =
+          presentRemaingBalance;
+      });
+    </script>
+  </body>
+</html>
